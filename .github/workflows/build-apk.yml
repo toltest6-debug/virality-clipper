@@ -13,19 +13,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ubuntu-latest ships the Android SDK + a recent JDK; Gradle wrapper is committed.
       - name: Make Gradle wrapper executable
         run: chmod +x gradlew
 
-      # Install API 35 if the runner image doesn't already carry it.
       - name: Ensure Android SDK platform 35
         run: |
           set -e
-          if [ ! -d "$ANDROID_HOME/platforms/android-35" ]; then
-            echo "android-35 platform missing; installing via sdkmanager"
-            sdkmanager "platforms;android-35" "build-tools;35.0.0"
+          ANDROID_HOME="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          if [ -d "$ANDROID_HOME/platforms/android-35" ]; then
+            echo "android-35 already installed"
           else
-            echo "android-35 platform already installed"
+            echo "android-35 missing; installing via sdkmanager"
+            export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+            yes | sdkmanager --licenses > /dev/null 2>&1 || true
+            sdkmanager "platforms;android-35"
           fi
 
       - name: Build APK (assembleDebug)
