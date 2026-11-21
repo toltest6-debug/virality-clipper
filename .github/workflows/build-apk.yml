@@ -1,0 +1,28 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  build-apk:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ubuntu-latest ships the Android SDK + a recent JDK; Gradle wrapper is committed.
+      - name: Make Gradle wrapper executable
+        run: chmod +x gradlew
+
+      - name: Build APK (assembleDebug)
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Upload debug APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: virality-clipper-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

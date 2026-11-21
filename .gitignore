@@ -1,0 +1,24 @@
+# Android / Gradle
+.gradle/
+build/
+app/build/
+local.properties
+*.apk
+*.aab
+.kotlin/
+
+# Backend
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/data/
+backend/.venv/
+backend/.env
+
+# Misc
+.DS_Store
+.env
+*.log
+.idea/
+.vscode/
+*.iml

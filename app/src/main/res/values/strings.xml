@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Virality Clipper</string>
+    <string name="home_title">Your next viral moment</string>
+    <string name="saved_title">Saved Shorts</string>
+    <string name="settings_title">Settings</string>
+</resources>
