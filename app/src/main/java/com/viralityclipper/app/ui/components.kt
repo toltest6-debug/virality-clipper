@@ -40,7 +40,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextAlign
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -270,7 +272,7 @@ fun ThumbnailImage(
         val bmp = bitmap
         if (bmp != null) {
             androidx.compose.foundation.Image(
-                bitmap = bmp,
+                bitmap = bmp.asImageBitmap(),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
