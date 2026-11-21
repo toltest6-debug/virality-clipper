@@ -8,6 +8,5 @@
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:statusBarContrastEnforced">false</item>
     </style>
 </resources>
