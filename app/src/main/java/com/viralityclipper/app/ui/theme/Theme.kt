@@ -3,7 +3,7 @@ package com.viralityclipper.app.ui.theme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.darkShapes
+import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -48,7 +48,7 @@ val viralityDarkScheme = darkColorScheme(
 )
 
 @Composable
-private fun viralityShapes() = darkShapes().copy(
+private fun viralityShapes() = Shapes(
     extraSmall = RoundedCornerShape(6.dp),
     small = RoundedCornerShape(10.dp),
     medium = RoundedCornerShape(16.dp),
