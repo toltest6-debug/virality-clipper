@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -270,7 +269,7 @@ private fun ProgressCard(state: JobUiState, colors: com.viralityclipper.app.ui.t
             LinearProgressBar(progressPct = progress, modifier = Modifier.fillMaxWidth())
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 steps.forEach { (step, stepState) ->
-                    StepChip(step = step, stepState = stepState, colors = colors)
+                    StepChip(step = step, stepState = stepState, modifier = Modifier.weight(1f), colors = colors)
                 }
             }
         }
@@ -295,7 +294,7 @@ private fun resolveStep(status: String): Int = when (status) {
 }
 
 @Composable
-private fun StepChip(step: Step, stepState: StepState, colors: com.viralityclipper.app.ui.theme.ViralityThemeColors) {
+private fun StepChip(step: Step, stepState: StepState, modifier: Modifier = Modifier, colors: com.viralityclipper.app.ui.theme.ViralityThemeColors) {
     val (color, bg) = when (stepState) {
         StepState.Done -> colors.success to colors.success.copy(alpha = 0.12f)
         StepState.Current -> colors.secondary to colors.secondary.copy(alpha = 0.12f)
@@ -304,7 +303,10 @@ private fun StepChip(step: Step, stepState: StepState, colors: com.viralityclipp
     }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.weight(1f).clip(RoundedCornerShape(12.dp)).background(bg).padding(vertical = 10.dp)
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .background(bg)
+            .padding(vertical = 10.dp)
     ) {
         ViralityIcon(step.icon, contentDescription = null, tint = color, modifier = Modifier.size(20.dp))
         Spacer(modifier = Modifier.height(6.dp))
