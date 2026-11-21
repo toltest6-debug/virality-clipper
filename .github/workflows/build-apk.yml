@@ -17,6 +17,17 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x gradlew
 
+      # Install API 35 if the runner image doesn't already carry it.
+      - name: Ensure Android SDK platform 35
+        run: |
+          set -e
+          if [ ! -d "$ANDROID_HOME/platforms/android-35" ]; then
+            echo "android-35 platform missing; installing via sdkmanager"
+            sdkmanager "platforms;android-35" "build-tools;35.0.0"
+          else
+            echo "android-35 platform already installed"
+          fi
+
       - name: Build APK (assembleDebug)
         run: ./gradlew assembleDebug --no-daemon --stacktrace
 
