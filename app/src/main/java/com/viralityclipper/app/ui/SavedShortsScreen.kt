@@ -139,45 +139,45 @@ fun SavedShortsScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-            StudioCard(
-                modifier = Modifier.fillMaxWidth(0.88f),
-                background = colors.surface,
-                border = true
-            ) {
-                Column(modifier = Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                    Text("Delete this short?", color = colors.text, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                    Text(
-                        text = "“${video.name}” will be permanently removed from Movies/ViralityClipper.",
-                        color = colors.textMuted,
-                        fontSize = 12.sp,
-                        maxLines = 3,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        OutlinedButton(
-                            onClick = { pendingDelete = null },
-                            colors = androidx.compose.material3.ButtonDefaults.outlinedButtonColors(contentColor = colors.text),
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text("Cancel")
-                        }
-                        Button(
-                            onClick = {
-                                viewModel.delete(video)
-                                pendingDelete = null
-                                Toast.makeText(context, "Short deleted", Toast.LENGTH_SHORT).show()
-                            },
-                            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                                containerColor = colors.error,
-                                contentColor = Color.Black
-                            ),
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text("Delete")
+                StudioCard(
+                    modifier = Modifier.fillMaxWidth(0.88f),
+                    background = colors.surface,
+                    border = true
+                ) {
+                    Column(modifier = Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                        Text("Delete this short?", color = colors.text, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                        Text(
+                            text = "“${video.name}” will be permanently removed from Movies/ViralityClipper.",
+                            color = colors.textMuted,
+                            fontSize = 12.sp,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            OutlinedButton(
+                                onClick = { pendingDelete = null },
+                                colors = androidx.compose.material3.ButtonDefaults.outlinedButtonColors(contentColor = colors.text),
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text("Cancel")
+                            }
+                            Button(
+                                onClick = {
+                                    viewModel.delete(video)
+                                    pendingDelete = null
+                                    Toast.makeText(context, "Short deleted", Toast.LENGTH_SHORT).show()
+                                },
+                                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                    containerColor = colors.error,
+                                    contentColor = Color.Black
+                                ),
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text("Delete")
+                            }
                         }
                     }
                 }
-            }
             }
         }
     }
@@ -202,7 +202,8 @@ private fun EmptyState() {
                 text = "Generate clips from the home screen — they save here automatically.",
                 color = colors.textMuted,
                 fontSize = 12.sp,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                modifier = Modifier.width(260.dp)
             )
         }
     }
@@ -218,37 +219,41 @@ private fun SavedClipRow(
     StudioCard(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
-                modifier = Modifier
-                    .size(64.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(colors.elevated),
+                modifier = Modifier.size(48.dp).clip(RoundedCornerShape(12.dp)).background(colors.elevated),
                 contentAlignment = Alignment.Center
             ) {
-                ViralityIcon(R.drawable.ic_clip, contentDescription = null, modifier = Modifier.size(28.dp), tint = colors.secondary)
+                ViralityIcon(R.drawable.ic_clip, contentDescription = null, tint = colors.secondary, modifier = Modifier.size(24.dp))
             }
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(video.name, color = colors.text, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text("${video.size} · ${video.date}", color = colors.textMuted, fontSize = 11.sp)
+            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Text(
+                    text = video.name,
+                    color = colors.text,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = "${formatDuration(video.durationMs / 1000.0)} · ${formatBytes(video.sizeBytes)}",
+                    color = colors.textMuted,
+                    fontSize = 11.sp
+                )
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedButton(
-                    onClick = onShare,
-                    colors = androidx.compose.material3.ButtonDefaults.outlinedButtonColors(contentColor = colors.secondary),
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    ViralityIcon(R.drawable.ic_share, contentDescription = "Share", modifier = Modifier.size(16.dp), tint = colors.secondary)
-                }
-                OutlinedButton(
-                    onClick = onDelete,
-                    colors = androidx.compose.material3.ButtonDefaults.outlinedButtonColors(contentColor = colors.error),
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    ViralityIcon(R.drawable.ic_delete, contentDescription = "Delete", modifier = Modifier.size(16.dp), tint = colors.error)
-                }
+            Box(
+                modifier = Modifier.size(38.dp).clip(RoundedCornerShape(10.dp)).background(colors.elevated).clickable(onClick = onShare),
+                contentAlignment = Alignment.Center
+            ) {
+                ViralityIcon(R.drawable.ic_share, contentDescription = "Share", modifier = Modifier.size(18.dp), tint = colors.secondary)
+            }
+            Box(
+                modifier = Modifier.size(38.dp).clip(RoundedCornerShape(10.dp)).background(colors.error.copy(alpha = 0.12f)).clickable(onClick = onDelete),
+                contentAlignment = Alignment.Center
+            ) {
+                ViralityIcon(R.drawable.ic_delete, contentDescription = "Delete", modifier = Modifier.size(18.dp), tint = colors.error)
             }
         }
     }
