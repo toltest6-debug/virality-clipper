@@ -3,7 +3,7 @@ package com.viralityclipper.app.data
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
-import android.media.MediaStore
+import android.provider.MediaStore
 import android.net.Uri
 import java.io.File
 
