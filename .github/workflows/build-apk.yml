@@ -13,6 +13,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # ubuntu-latest's default Java is now v25, which Kotlin 2.0.21 (and our
+      # Gradle build) cannot parse. Force JDK 17/21 for the build.
+      - name: Select JDK 17 or 21
+        run: |
+          set -e
+          for jdk in java-21-openjdk-amd64 java-17-openjdk-amd64; do
+            if [ -d "/usr/lib/jvm/$jdk" ]; then
+              echo "Using $jdk"
+              echo "JAVA_HOME=/usr/lib/jvm/$jdk" >> "$GITHUB_ENV"
+              echo "/usr/lib/jvm/$jdk/bin" >> "$GITHUB_PATH"
+              exit 0
+            fi
+          done
+          echo "No JDK 17/21 found; /usr/lib/jvm contents:"
+          ls /usr/lib/jvm/
+          exit 1
+
       - name: Make Gradle wrapper executable
         run: chmod +x gradlew
 
