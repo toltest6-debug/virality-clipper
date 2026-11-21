@@ -13,11 +13,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardType
-import androidx.compose.foundation.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
@@ -124,7 +125,7 @@ fun SettingsScreen(container: com.viralityclipper.app.data.AppContainer, navCont
                     placeholder = { Text("http://10.0.2.2:8000", color = colors.textMuted, fontSize = 13.sp) },
                     textStyle = androidx.compose.material3.LocalTextStyle.current.copy(color = colors.text, fontSize = 14.sp),
                     keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = KeyboardType.Uri),
-                    colors = androidx.compose.material3.TextFieldDefaults.colors(
+                    colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = colors.primary,
                         unfocusedBorderColor = colors.border,
                         focusedTextColor = colors.text,
@@ -185,7 +186,7 @@ fun SettingsScreen(container: com.viralityclipper.app.data.AppContainer, navCont
                         SelectChip(
                             label = p.replaceFirstChar { it.uppercase() },
                             selected = provider == p,
-                            onSelect = { picked ->
+                            onClick = { picked ->
                                 provider = picked.lowercase()
                                 scope.launch { viewModel.setProvider(provider) }
                             }
@@ -200,7 +201,7 @@ fun SettingsScreen(container: com.viralityclipper.app.data.AppContainer, navCont
                     placeholder = { Text("sk-… (optional — AI keys are never stored on the backend)", color = colors.textMuted, fontSize = 12.sp) },
                     textStyle = androidx.compose.material3.LocalTextStyle.current.copy(color = colors.text, fontSize = 13.sp),
                     visualTransformation = PasswordVisualTransformation(),
-                    colors = androidx.compose.material3.TextFieldDefaults.colors(
+                    colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = colors.primary,
                         unfocusedBorderColor = colors.border,
                         focusedTextColor = colors.text,
