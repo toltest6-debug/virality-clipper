@@ -1,7 +1,7 @@
 package com.viralityclipper.app.data
 
 import android.content.Context
-import android.media.MediaStore
+import android.provider.MediaStore
 import android.net.Uri
 
 class SavedShortsRepository(context: Context) {
