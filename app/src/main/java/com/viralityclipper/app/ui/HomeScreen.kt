@@ -15,10 +15,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.text.KeyboardType
-import androidx.compose.foundation.text.input.TextFieldValue
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -37,7 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextAlign
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -76,22 +76,20 @@ fun HomeScreen(container: com.viralityclipper.app.data.AppContainer, navControll
         val canonical = ShareExtractor.extractUrl(url)
         if (canonical == null) {
             errorMessage = "Paste a valid YouTube link to generate shorts"
-            return@startJob
-        }
-        if (settings.backendUrl.isBlank()) {
+        } else if (settings.backendUrl.isBlank()) {
             errorMessage = "Backend URL is missing — open Settings to add your server"
-            return@startJob
-        }
-        loading = true
-        errorMessage = null
-        scope.launch {
-            try {
-                val jobId = viewModel.startJob(canonical, clipCount, targetSec, aspectRatio, burnCaptions)
-                shareBannerActive = false
-                navController.navigate("job/$jobId")
-            } catch (e: Exception) {
-                loading = false
-                errorMessage = e.message ?: "Failed to start the job"
+        } else {
+            loading = true
+            errorMessage = null
+            scope.launch {
+                try {
+                    val jobId = viewModel.startJob(canonical, clipCount, targetSec, aspectRatio, burnCaptions)
+                    shareBannerActive = false
+                    navController.navigate("job/$jobId")
+                } catch (e: Exception) {
+                    loading = false
+                    errorMessage = e.message ?: "Failed to start the job"
+                }
             }
         }
     }
@@ -249,7 +247,7 @@ fun HomeScreen(container: com.viralityclipper.app.data.AppContainer, navControll
                     keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
                         keyboardType = KeyboardType.Uri
                     ),
-                    colors = androidx.compose.material3.TextFieldDefaults.colors(
+                    colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = colors.primary,
                         unfocusedBorderColor = colors.border,
                         focusedTextColor = colors.text,
